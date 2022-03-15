@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace RPN_Calculator_App.Controllers
 {
@@ -15,11 +9,11 @@ namespace RPN_Calculator_App.Controllers
 
 
         [HttpPost]
-        public RpnResult Post(string RpnExpression)
+        public RpnResult Post(string rpnExpression)
         {
-            RpnCalculator expression = new RpnCalculator(RpnExpression);
-            var res = expression.EvaluteRpnExpr();
-            return new RpnResult(RpnExpression, res);
+            RpnCalculator expression = new RpnCalculator(rpnExpression);
+            var res = expression.EvaluateRpnExpr();
+            return new RpnResult(rpnExpression, res);
         }
     }
 }

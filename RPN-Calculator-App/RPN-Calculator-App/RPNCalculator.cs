@@ -5,13 +5,13 @@ namespace RPN_Calculator_App
 {
     public class RpnCalculator
     {
-        public string Expression { get; set; }
+        private string Expression { get; set; }
 
         public RpnCalculator(string expression)
         {
             Expression = expression;
         }
-        public  double EvaluteRpnExpr()
+        public  double EvaluateRpnExpr()
         {
             var stack = ParseExpr(Expression);
             return EvaluateRpnStack(stack);
