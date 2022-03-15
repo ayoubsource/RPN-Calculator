@@ -9,11 +9,8 @@ namespace RPN_Calculator_App
     {
         public void AddElementToStack(double e);
         public void ClearStack();
-
         public double[] GetStackAsArray();
-
         public double Pop();
-
         public double Count();
     }
 }
