@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
 namespace RPN_Calculator_App
 {
@@ -25,6 +26,20 @@ namespace RPN_Calculator_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "RPN calculator",
+                    Version = "v1",
+                    Description = "Description for the API goes here.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Ayoub Chaabi",
+                        Email = string.Empty,
+                    },
+                });
+            });
             services.AddControllers();
         }
 
@@ -35,6 +50,19 @@ namespace RPN_Calculator_App
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RPN Calculator v1");
+
+                // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
+                c.RoutePrefix = "RpnCalculator";
+            });
 
             app.UseHttpsRedirection();
 
