@@ -1,61 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RPN_Calculator_App
 {
     public class RpnCalculator
     {
-        private string Expression { get; set; }
+        private readonly IStackServices _stackServices;
 
-        public RpnCalculator(string expression)
+        public RpnCalculator(IStackServices stackServices)
         {
-            Expression = expression;
-        }
-        public  double EvaluateRpnExpr()
-        {
-            var stack = ParseExpr(Expression);
-            return EvaluateRpnStack(stack);
+            _stackServices = stackServices;
         }
 
-        private  Stack<string> ParseExpr(string s)
+        public void  Add()
         {
-            char[] sp = { ' ', '\t' };
-            if (s == null) return new Stack<string>();
-            var tks = new Stack<string>
-                (s.Split(sp, StringSplitOptions.RemoveEmptyEntries));
+            CheckStackCount();
 
+            var e1 = _stackServices.Pop();
+            var e2 = _stackServices.Pop();
+            this._stackServices.AddElementToStack(e2+e1);
 
-            return tks;
         }
 
-        private  double EvaluateRpnStack(Stack<string> tks)
+
+        public void Minus()
         {
-            var tk = tks.Pop();
-            double x, y;
-            if (double.TryParse(tk, out x)) return x;
+            CheckStackCount();
 
-            y = EvaluateRpnStack(tks);
-            x = EvaluateRpnStack(tks);
+            var e1 = _stackServices.Pop();
+            var e2 = _stackServices.Pop();
+            this._stackServices.AddElementToStack(e2 - e1);
 
-            switch (tk)
+        }
+
+
+        public void Multiply()
+        {
+            CheckStackCount();
+            var e1 = _stackServices.Pop();
+            var e2 = _stackServices.Pop();
+            this._stackServices.AddElementToStack(e2 * e1);
+
+        }
+
+        public void Divide()
+        {
+            CheckStackCount();
+            var e1 = _stackServices.Pop();
+            var e2 = _stackServices.Pop();
+            if (e1 == 0)
             {
-                case "+":
-                    x += y;
-                    break;
-                case "-":
-                    x -= y;
-                    break;
-                case "*":
-                    x *= y;
-                    break;
-                case "/":
-                    x /= y;
-                    break;
-                default:
-                    throw new Exception();
+                throw new InvalidOperationException("Impossible operation (division by zero)");
             }
+            this._stackServices.AddElementToStack(e2 / e1);
+        }
 
-            return x;
+        private void CheckStackCount()
+        {
+            if (_stackServices.Count() < 2)
+            {
+                throw new InvalidOperationException("Invalid operation : Stack contains less than two elements");
+            }
         }
     }
 }

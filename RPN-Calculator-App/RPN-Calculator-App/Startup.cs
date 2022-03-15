@@ -26,6 +26,7 @@ namespace RPN_Calculator_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IStackServices, StackServices>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -61,7 +62,7 @@ namespace RPN_Calculator_App
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RPN Calculator v1");
 
                 // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
-                c.RoutePrefix = "RpnCalculator";
+                c.RoutePrefix = "api/RpnCalculator";
             });
 
             app.UseHttpsRedirection();
